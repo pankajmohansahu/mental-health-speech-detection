@@ -1,4 +1,4 @@
-# 🧠 AI-Based Early Mental Health Breakdown Detection from Speech Patterns
+#  AI-Based Early Mental Health Breakdown Detection from Speech Patterns
 
 > **Course:** Data Science and AI Lab Project (BSDA4001)
 > **Milestone:** 1
@@ -6,7 +6,7 @@
 
 ---
 
-## 👥 Team Members
+## Team Members
 
 | Name | Roll Number |
 |---|---|
@@ -18,7 +18,7 @@
 
 ---
 
-## 📋 Milestone 1 — Team Contributions
+##  Milestone 1 — Team Contributions
 
 ### G Hamsini — `22f3000767`
 - **Abstract** — Drafted the project abstract summarizing the multimodal AI screening architecture, fusion approach, and ethical design goals.
@@ -50,7 +50,7 @@
 
 ---
 
-## 📊 Contribution Summary
+## Contribution Summary
 
 | Member | Roll Number | Sections |
 |---|---|---|
@@ -62,7 +62,7 @@
 
 ---
 
-## 📁 Report Structure
+##  Report Structure
 
 ```
 Milestone 1 Report
