@@ -7,9 +7,21 @@ RAVDESS Emotional speech audio/
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
+
+# Environment / secrets
+.env
+.env.*
+*.env
+!.env.example
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
 
 # OS files
 .DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp

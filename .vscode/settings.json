@@ -1,0 +1,15 @@
+{
+    "files.watcherExclude": {
+        "**/.venv/**": true,
+        "**/MODMA-Dataset/**": true,
+        "**/RAVDESS Emotional speech audio/**": true,
+        "**/__pycache__/**": true,
+        "**/.ipynb_checkpoints/**": true
+    },
+    "files.exclude": {
+        "**/.venv": true,
+        "**/__pycache__": true,
+        "**/.ipynb_checkpoints": true
+    },
+    "git.ignoreLimitWarning": true
+}
