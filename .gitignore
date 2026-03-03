@@ -1,0 +1,15 @@
+# Raw datasets (too large for git)
+MODMA-Dataset/
+RAVDESS Emotional speech audio/
+
+# Python virtual environment
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
