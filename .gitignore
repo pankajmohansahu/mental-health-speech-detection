@@ -1,6 +1,7 @@
 # Raw datasets (too large for git)
 MODMA-Dataset/
 RAVDESS Emotional speech audio/
+Daicwoz/
 
 # Python virtual environment
 .venv/
