@@ -8,7 +8,7 @@
 #   e:\Group-6-DS-and-AI-Lab-Project\
 #     ├── Stress datasets\          ← Stress (SWELL + WESAD)
 #     ├── Daicwoz\                  ← DAIC-WOZ
-#     ├── MODMA-Dataset\            ← MODMA EEG
+#     ├── MODMA-Dataset\            ← MODMA Audio
 #     └── RAVDESS Emotional speech audio\  ← RAVDESS
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -22,10 +22,8 @@ DAIC-WOZ (Depression Audio-Visual Corpus)
   Local dir: Daicwoz\
   Notebook : Notebooks_EDA/DAICWOZ_Feature_Extraction.ipynb
 
-MODMA Dataset (EEG — Mental Disorder)
-  URL      : https://www.kaggle.com/datasets/manavrajpurohit/modma-dataset/data
-  Local dir: MODMA-Dataset\
-  Notebook : Notebooks_EDA/MODMA_EDA_and_Preparation.ipynb
+MODMA Dataset (Audio Module)
+  URL      : https://modma.lzu.edu.cn/data/application/#data_2
 
 RAVDESS (Emotional Speech Audio)
   URL      : https://www.kaggle.com/datasets/uwrfkaggler/ravdess-emotional-speech-audio
