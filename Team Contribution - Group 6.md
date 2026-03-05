@@ -68,8 +68,8 @@
 
 | Name | Roll Number | Contribution |
 |---|---|---|
-| G Hamsini | 22f3000767 | Dataset Preparation — Organized and preprocessed datasets, including structuring audio–transcript pairs and preparing train/test splits for model training and evaluation. |
-| Drashti Shah | 22f2001483 | Dataset Preparation — Assisted in cleaning and structuring the DAIC-WOZ dataset and ensuring compatibility with the multimodal pipeline. |
+| Drashti Shah | 22f2001483 | Dataset Preparation — Organized and preprocessed datasets, including structuring audio–transcript pairs and preparing train/test splits for model training and evaluation. |
+| G Hamsini | 22f3000767| Dataset Preparation — Assisted in cleaning and structuring the DAIC-WOZ dataset and ensuring compatibility with the multimodal pipeline. |
 | Pankaj Mohan Sahu | 21f2001203 | Exploratory Data Analysis (EDA) — Conducted statistical analysis of the datasets, examining audio duration, transcript characteristics, and PHQ-9 label distributions. |
 | Om Aryan | 21f3002286 | Exploratory Data Analysis (EDA) — Performed visualizations and feature-level exploration to understand acoustic and linguistic patterns relevant to mental health detection. |
 | Mahi Mudgal | 21f3002602 | Documentation — Compiled and organized Milestone 2 documentation, detailing dataset preparation procedures and EDA findings. |
