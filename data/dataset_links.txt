@@ -1,0 +1,33 @@
+# Dataset Download Links
+# ─────────────────────────────────────────────────────────────────────────────
+# These datasets are NOT included in the repository due to their large size.
+# Download each dataset from the links below and place them in the corresponding
+# local folder before running the EDA notebooks.
+#
+# Expected local folder structure:
+#   e:\Group-6-DS-and-AI-Lab-Project\
+#     ├── Stress datasets\          ← Stress (SWELL + WESAD)
+#     ├── Daicwoz\                  ← DAIC-WOZ
+#     ├── MODMA-Dataset\            ← MODMA EEG
+#     └── RAVDESS Emotional speech audio\  ← RAVDESS
+# ─────────────────────────────────────────────────────────────────────────────
+
+Stress Dataset (SWELL + WESAD — IEEE TAC)
+  URL      : https://www.kaggle.com/datasets/qiriro/ieee-tac
+  Local dir: Stress datasets\
+  Notebook : Notebooks_EDA/Stress_EDA_and_Preparation.ipynb
+
+DAIC-WOZ (Depression Audio-Visual Corpus)
+  URL      : https://www.kaggle.com/datasets/saifzaman123445/daicwoz
+  Local dir: Daicwoz\
+  Notebook : Notebooks_EDA/DAICWOZ_Feature_Extraction.ipynb
+
+MODMA Dataset (EEG — Mental Disorder)
+  URL      : https://www.kaggle.com/datasets/manavrajpurohit/modma-dataset/data
+  Local dir: MODMA-Dataset\
+  Notebook : Notebooks_EDA/MODMA_EDA_and_Preparation.ipynb
+
+RAVDESS (Emotional Speech Audio)
+  URL      : https://www.kaggle.com/datasets/uwrfkaggler/ravdess-emotional-speech-audio
+  Local dir: RAVDESS Emotional speech audio\
+  Notebook : Notebooks_EDA/RAVDESS_EDA_and_Feature_Extraction.ipynb
