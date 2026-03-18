@@ -6,59 +6,26 @@
 #
 # Expected local folder structure:
 #   e:\Group-6-DS-and-AI-Lab-Project\
+#     ├── Stress datasets\          ← Stress (SWELL + WESAD)
 #     ├── Daicwoz\                  ← DAIC-WOZ
 #     ├── MODMA-Dataset\            ← MODMA Audio
-#     ├── RAVDESS Emotional speech audio\  ← RAVDESS
-#     └── Stress datasets\          ← Stress (SWELL + WESAD)
+#     └── RAVDESS Emotional speech audio\  ← RAVDESS
 # ─────────────────────────────────────────────────────────────────────────────
-
-#### DAIC-WOZ (Primary Clinical Benchmark)
-
-| Item | Detail |
-|---|---|
-| **Full Name** | Distress Analysis Interview Corpus -- Wizard of Oz |
-| **Source** | University of Southern California (USC) Institute for Creative Technologies |
-| **Ownership** | USC ICT; distributed under the AVEC 2017 Depression Sub-Challenge |
-| **Access** | Requires signed Data Use Agreement (DUA); application submitted, approved |
-| **License** | Research-only; no redistribution; no commercial use |
-| **Citation** | Gratch et al. (2014), LREC; DeVault et al. (2014); AVEC 2017 Challenge |
-| **Format** | Audio (16 kHz mono WAV), transcripts (tab-separated CSV with per-utterance timestamps), pre-extracted visual features (CLNF/OpenFace) |
-| **Reliability** | Gold-standard benchmark; used in 200+ published studies; PHQ-8 labels validated by licensed clinicians |
-| **Approval Status** | DUA submitted to USC ICT; approved.|
-| **Local Directory** | Daicwoz\|
-| **Notebook** | Notebooks_EDA/DAICWOZ_Feature_Extraction.ipynb|
-
-#### MODMA (Supplementary Clinical Audio Dataset)
-
-| Item | Detail |
-|---|---|
-| **Full Name** | Multi-modal Open Dataset for Mental-disorder Analysis |
-| **Source** | Institute of Automation, Chinese Academy of Sciences |
-| **Ownership** | Institute of Automation, Chinese Academy of Sciences |
-| **Access** | Access granted after submitting and signing the End User License Agreement (EULA); application approved |
-| **License** | Research-only; redistribution prohibited; no commercial use without permission |
-| **Citation** | Yang et al. (2020), *MODMA: A Multimodal Dataset for Depression Detection* |
-| **Format** | Audio recordings (WAV format) collected from structured speech tasks and interviews; accompanying metadata including clinical diagnosis labels |
-| **Reliability** | Clinically validated dataset used in multiple speech-based depression detection studies |
-| **Approval Status** | EULA submitted and approved; dataset access granted |
-
-#### RAVDESS (Acoustic Emotion Baseline)
-
-
-| Item | Detail |
-|---|---|
-| **Full Name** | Ryerson Audio-Visual Database of Emotional Speech and Song |
-| **Source** |  Kaggle (https://www.kaggle.com/datasets/uwrfkaggler/ravdess-emotional-speech-audio) |
-| **Ownership** | Ryerson University; created by Livingstone & Russo |
-| **License** | CC BY-NC-SA 4.0 -- free for non-commercial research with attribution |
-| **Citation** | Livingstone & Russo (2018), PLoS ONE 13(5) |
-| **Format** | 48 kHz, 16-bit, mono WAV files |
-| **Reliability** | Peer-reviewed publication; studio-recorded under controlled acoustic conditions; widely used in emotion recognition research |
-| **Approval Requirement** | None. Publicly available. Only proper citation is required. |
-| ***Local Directory** | RAVDESS Emotional speech audio\ |
-| **Notebook** | Notebooks_EDA/RAVDESS_EDA_and_Feature_Extraction.ipynb |
 
 Stress Dataset (SWELL + WESAD — IEEE TAC)
   URL      : https://www.kaggle.com/datasets/qiriro/ieee-tac
   Local dir: Stress datasets\
   Notebook : Notebooks_EDA/Stress_EDA_and_Preparation.ipynb
+
+DAIC-WOZ (Depression Audio-Visual Corpus)
+  URL      : https://www.kaggle.com/datasets/saifzaman123445/daicwoz
+  Local dir: Daicwoz\
+  Notebook : Notebooks_EDA/DAICWOZ_Feature_Extraction.ipynb
+
+MODMA Dataset (Audio Module)
+  URL      : https://modma.lzu.edu.cn/data/application/#data_2
+
+RAVDESS (Emotional Speech Audio)
+  URL      : https://www.kaggle.com/datasets/uwrfkaggler/ravdess-emotional-speech-audio
+  Local dir: RAVDESS Emotional speech audio\
+  Notebook : Notebooks_EDA/RAVDESS_EDA_and_Feature_Extraction.ipynb
