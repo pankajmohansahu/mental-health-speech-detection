@@ -253,12 +253,12 @@ Simple concatenation (`[audio; text]`) gives equal weight to both modalities reg
 
 | Aspect | Pipeline 1 (Classical ML) | Pipeline 2 (Foundation Models) |
 | ----- | ----- | ----- |
-| Interpretability | ✅ SHAP explanations | ❌ Black-box encoders |
-| Latency | ✅ \~50–100 ms | ❌ \~500 ms – 2 s |
-| Data efficiency | ✅ Works on N=107 | ⚠️ Needs GPU; subset run only |
-| Representation quality | ❌ Hand-crafted features | ✅ Deep contextualized embeddings |
-| Temporal modeling | ❌ Aggregated statistics | ✅ Whisper captures temporal dynamics |
-| Clinical deployment | ✅ Readily deployable | ⚠️ High compute cost |
+| Interpretability |  SHAP explanations |  Black-box encoders |
+| Latency |  \~50–100 ms |  \~500 ms – 2 s |
+| Data efficiency |  Works on N=107 |  Needs GPU; subset run only |
+| Representation quality |  Hand-crafted features |  Deep contextualized embeddings |
+| Temporal modeling |  Aggregated statistics |  Whisper captures temporal dynamics |
+| Clinical deployment |  Readily deployable |  High compute cost |
 
 ---
 
@@ -284,8 +284,8 @@ Epoch | Train Loss | Val Loss | Val F1 | Val RMSE
     4 |     2.0293 |   2.0414 | 0.3333 |   5.2114  
     5 |     2.0502 |   2.0421 | 0.3333 |   5.3013
 
-⏹ Early stopping at epoch 5  
-✅ Pipeline 2 raw-data subset run completed.  
+- Early stopping at epoch 5  
+- Pipeline 2 raw-data subset run completed.  
 Best val Macro-F1 : 0.3333 (at epoch 1\)  
 Best val RMSE     : 5.5776  
 Raw-input path verified: WAV \+ text → frozen encoders → gated fusion → dual-task outputs
@@ -315,11 +315,11 @@ The following table shows Pipeline 1's output on a sample of 5 test-set particip
 
 \#   True Label  True PHQ-8  Pred Label     P(dep)  PHQ-8 Est  Band     Acoustic  Linguistic  Visual  
 ──────────────────────────────────────────────────────────────────────────────────────────────────  
-1   Healthy     2           Depressed ⚠️   0.5024     6.76     Mild      0.4830     0.4341    0.2743  
-2   Healthy     3           Healthy   ✅   0.4940     6.33     Mild      0.4595     0.6648    0.4404  
-3   Healthy     0           Depressed ⚠️   0.5116     6.58     Mild      0.4894     0.5363    0.2440  
-4   Depressed   22          Healthy   ✅   0.4972     6.72     Mild      0.5027     0.5719    0.3679  
-5   Depressed   15          Healthy   ✅   0.4870     6.46     Mild      0.4886     0.3960    0.3765
+1   Healthy     2           Depressed    0.5024     6.76     Mild      0.4830     0.4341    0.2743  
+2   Healthy     3           Healthy      0.4940     6.33     Mild      0.4595     0.6648    0.4404  
+3   Healthy     0           Depressed    0.5116     6.58     Mild      0.4894     0.5363    0.2440  
+4   Depressed   22          Healthy      0.4972     6.72     Mild      0.5027     0.5719    0.3679  
+5   Depressed   15          Healthy      0.4870     6.46     Mild      0.4886     0.3960    0.3765
 
 Each output dict returned by `pipeline1_predict()` contains:
 
