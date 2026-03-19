@@ -74,4 +74,18 @@
 | Om Aryan | 21f3002286 | Exploratory Data Analysis (EDA) — Performed visualizations and feature-level exploration to understand acoustic and linguistic patterns relevant to mental health detection. |
 | Mahi Mudgal | 21f3002602 | Documentation — Compiled and organized Milestone 2 documentation, detailing dataset preparation procedures and EDA findings. |
 
+
+
+---
+
+## Milestone 3 — Team Contributions
+
+| Name | Roll Number | Contribution |
+|---|---|---|
+| Drashti Shah | 22f2001483 | Dataset Structuring & Preprocessing — Designed and implemented structured data pipelines, including organization of raw and processed datasets, creation of train/validation/test splits, and preprocessing of audio and transcript data for model ingestion. |
+| G Hamsini | 22f3000767 | Dataset Structuring & Preprocessing — Assisted in refining dataset organization, ensuring consistency across multimodal inputs, and implementing preprocessing steps for both speech and textual data. |
+| Om Aryan | 21f3002286 | Model Architecture & Pipeline — Developed the end-to-end model pipeline, integrating speech processing, transcript-based analysis, and system flow from input to prediction. |
+| Pankaj Mohan Sahu | 21f2001203 | Model Architecture & Pipeline — Contributed to architecture design decisions, pipeline integration, and implementation of data flow across different components of the system. |
+| Mahi Mudgal | 21f3002602 | Evaluation & Justification — Defined evaluation metrics, validated the end-to-end pipeline on sample data, and provided justification for model architecture including strengths, limitations, and performance considerations. |
+
 *Submitted to: IIT Madras — BSDA4001 Data Science and AI Lab*
