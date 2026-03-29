@@ -88,4 +88,16 @@
 | Pankaj Mohan Sahu | 21f2001203 | Model Architecture & Pipeline — Contributed to architecture design decisions, pipeline integration, and implementation of data flow across different components of the system. |
 | Mahi Mudgal | 21f3002602 | Evaluation & Justification — Defined evaluation metrics, validated the end-to-end pipeline on sample data, and provided justification for model architecture including strengths, limitations, and performance considerations. |
 
+
+---
+## Milestone 3 — Team Contributions
+
+| Name | Roll Number | Contribution |
+|---|---|---|
+| Drashti Shah | 22f2001483 | Data Processing & Feature Engineering |
+| G Hamsini | 22f3000767 | Hyperparameter Tuning & Validation Strategy |
+| Om Aryan | 21f3002286 | Model Optimization & Integration |
+| Pankaj Mohan Sahu | 21f2001203 | Training Pipeline & Experimentation |
+| Mahi Mudgal | 21f3002602 | Evaluation, Analysis & Reporting |
+
 *Submitted to: IIT Madras — BSDA4001 Data Science and AI Lab*
