@@ -85,95 +85,165 @@
     "macro_f1": 0.32992861359259806,
     "notes": "EmotionMLP trained on 1140 train+val samples, eval on test, opt=AdamW"
   },
+  "rav_whisper_xgb": {
+    "model": "XGBoost",
+    "feature": "Whisper-small 1536-D",
+    "val_macro_f1": 0.9231,
+    "test_macro_f1": 0.9741,
+    "test_accuracy": 0.9722
+  },
+  "rav_whisper_mlp": {
+    "model": "MLP",
+    "feature": "Whisper-small 1536-D",
+    "val_macro_f1": 0.9727,
+    "test_macro_f1": 0.9729,
+    "test_accuracy": 0.9722
+  },
+  "modma_whisper_svm": {
+    "model": "SVM",
+    "feature": "Whisper 1536-D",
+    "dataset": "MODMA",
+    "test_macro_f1": 0.75,
+    "test_accuracy": 0.75
+  },
+  "modma_whisper_xgb": {
+    "model": "XGBoost",
+    "feature": "Whisper 1536-D",
+    "dataset": "MODMA",
+    "test_macro_f1": 0.619,
+    "test_accuracy": 0.625
+  },
+  "daic_whisper_xgb": {
+    "model": "XGBoost+SMOTE",
+    "feature": "Whisper 1536-D",
+    "dataset": "DAIC-WOZ",
+    "test_macro_f1": 0.4926,
+    "test_accuracy": 0.6087,
+    "test_auc": 0.4665,
+    "sensitivity": 0.2143
+  },
+  "daic_whisper_svm": {
+    "model": "SVM",
+    "feature": "Whisper 1536-D",
+    "dataset": "DAIC-WOZ",
+    "test_macro_f1": 0.4773,
+    "test_accuracy": 0.4783,
+    "test_auc": 0.6094
+  },
+  "daic_whisper_phq8_reg": {
+    "model": "XGBoost Reg",
+    "feature": "Whisper 1536-D",
+    "dataset": "DAIC-WOZ",
+    "test_rmse": 6.025,
+    "within_band": 60.9
+  },
+  "daic_whisper_hc_fusion_xgb": {
+    "model": "XGB Fusion",
+    "feature": "Whisper+HC 3767-D",
+    "dataset": "DAIC-WOZ",
+    "test_macro_f1": 0.4623,
+    "test_accuracy": 0.6087,
+    "test_auc": 0.5223,
+    "sensitivity": 0.1429
+  },
+  "daic_whisper_hc_fusion_mlp": {
+    "model": "MLP Fusion",
+    "feature": "Whisper+HC 3767-D",
+    "dataset": "DAIC-WOZ",
+    "test_macro_f1": 0.6068,
+    "test_accuracy": 0.6739,
+    "test_auc": 0.6116,
+    "sensitivity": 0.4286
+  },
   "daic_acoustic_tuned": {
     "accuracy": 0.6,
-    "macro_f1": 0.5359848484848485,
-    "auprc": 0.5675182630645736,
-    "notes": "XGB acoustic depth=3 lr=0.05"
+    "macro_f1": 0.5716783216783217,
+    "auprc": 0.5170039682539683,
+    "notes": "XGB acoustic depth=2 lr=0.05"
   },
   "daic_acoustic_combined_test": {
-    "macro_f1": 0.5368115942028986,
+    "macro_f1": 0.4683257918552036,
     "notes": "Acoustic XGB train+val+SMOTE test"
   },
   "daic_linguistic_tuned": {
-    "accuracy": 0.6,
-    "macro_f1": 0.5359848484848485,
+    "accuracy": 0.45714285714285713,
+    "macro_f1": 0.4272179155900086,
     "notes": "XGB linguistic tuned"
   },
   "daic_visual_tuned": {
-    "accuracy": 0.6857142857142857,
-    "macro_f1": 0.5726970033296338,
+    "accuracy": 0.5428571428571428,
+    "macro_f1": 0.4017094017094017,
     "notes": "XGB visual tuned"
   },
   "daic_fusion_logreg": {
-    "macro_f1": 0.6181818181818182,
-    "accuracy": 0.7428571428571429,
+    "macro_f1": 0.4484848484848485,
+    "accuracy": 0.6285714285714286,
     "notes": "LogReg meta"
   },
   "daic_fusion_mlp": {
-    "macro_f1": 0.6260683760683761,
-    "accuracy": 0.7142857142857143,
+    "macro_f1": 0.4484848484848485,
+    "accuracy": 0.6285714285714286,
     "notes": "MLP meta"
   },
   "daic_fusion_wavg": {
-    "macro_f1": 0.6181818181818182,
-    "accuracy": 0.7428571428571429,
+    "macro_f1": 0.41731409544950054,
+    "accuracy": 0.5714285714285714,
     "notes": "weighted avg"
   },
   "daic_fusion_xgb_direct": {
-    "macro_f1": 0.6260683760683761,
-    "accuracy": 0.7142857142857143,
-    "auprc": 0.5451979063821168,
+    "macro_f1": 0.6026831785345717,
+    "accuracy": 0.6857142857142857,
+    "auprc": 0.5364693313222725,
     "notes": "XGB direct on 2231 enriched features"
   },
   "daic_fusion_thresh_opt": {
-    "macro_f1": 0.6438482886216466,
-    "accuracy": 0.6857142857142857,
+    "macro_f1": 0.6236559139784946,
+    "accuracy": 0.6285714285714286,
     "threshold": 0.45,
     "notes": "Wavg thresh=0.45 optimised"
   },
   "daic_fusion_combined_smote": {
-    "macro_f1": 0.48231884057971014,
+    "macro_f1": 0.41748206131767773,
     "accuracy": 0.5957446808510638,
     "notes": "Train+Val combined + SMOTE, evaluated on test set"
   },
   "daic_phq8_xgb_mse": {
-    "rmse": 6.50247028066846,
-    "mae": 5.361001968383789,
+    "rmse": 6.6071741935546555,
+    "mae": 5.468630790710449,
     "notes": "XGB MSE"
   },
   "daic_phq8_gbr_huber": {
-    "rmse": 7.221800593077674,
-    "mae": 5.560604110249098,
+    "rmse": 6.842494514610694,
+    "mae": 5.465900892671017,
     "notes": "GBR Huber"
   },
   "daic_phq8_xgb_enriched": {
-    "rmse": 6.350442597591347,
-    "mae": 5.1401472091674805,
+    "rmse": 6.5150140343234595,
+    "mae": 5.4534592628479,
     "notes": "XGB enriched 2231 features"
   },
   "daic_test_acoustic": {
-    "accuracy": 0.6382978723404256,
-    "macro_f1": 0.5583195135433942,
+    "accuracy": 0.5957446808510638,
+    "macro_f1": 0.5063571033720287,
     "notes": "TEST acoustic train+val+SMOTE=True"
   },
   "daic_test_linguistic": {
-    "macro_f1": 0.5583195135433942,
+    "macro_f1": 0.5746606334841629,
     "notes": "TEST linguistic train+val+SMOTE=True"
   },
   "daic_test_visual": {
-    "macro_f1": 0.5063571033720287,
+    "macro_f1": 0.5422077922077922,
     "notes": "TEST visual train+val+SMOTE=True"
   },
   "daic_test_fusion": {
-    "accuracy": 0.5319148936170213,
-    "macro_f1": 0.5317028985507246,
+    "accuracy": 0.5106382978723404,
+    "macro_f1": 0.509750566893424,
     "threshold": 0.2,
     "notes": "TEST fusion wavg thresh=0.2 SMOTE=True"
   },
   "daic_test_phq8": {
-    "rmse": 6.3099546204747785,
-    "within_1_band": 0.7872340425531915,
+    "rmse": 6.073685809887529,
+    "within_1_band": 0.7659574468085106,
     "notes": "TEST PHQ-8 train+val XGBoost"
   },
   "modma_svm_test": {
@@ -328,6 +398,20 @@
     "macro_f1": 0.28472147354783356,
     "train_val_gap": 0.686028845180437,
     "notes": "+ Dropout + L2 + BN (Full)"
+  },
+  "swell_hrv_xgb_smote": {
+    "model": "XGBoost+SMOTE",
+    "feature": "HRV 75-feat",
+    "dataset": "SWELL-HRV 3-class",
+    "test_macro_f1": 0.3294,
+    "test_accuracy": 0.3515
+  },
+  "swell_hrv_xgb_smote_binary": {
+    "model": "XGBoost+SMOTE",
+    "feature": "HRV 75-feat",
+    "dataset": "SWELL-HRV binary",
+    "test_macro_f1": 0.444,
+    "test_accuracy": 0.4446
   },
   "stress_wesad_hrv_mlp_test": {
     "accuracy": 0.7408633799362276,

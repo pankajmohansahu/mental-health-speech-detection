@@ -1,23 +1,30 @@
 Dataset,Task,Experiment,Val Acc/RMSE,Val Macro-F1,Notes
-DAIC-WOZ,Depression binary,daic_acoustic_combined_test,-,0.5368,Acoustic XGB train+val+SMOTE test
-DAIC-WOZ,Depression binary,daic_acoustic_tuned,0.6,0.536,XGB acoustic depth=3 lr=0.05
-DAIC-WOZ,Depression binary,daic_fusion_combined_smote,0.5957,0.4823,"Train+Val combined + SMOTE, evaluated on test set"
-DAIC-WOZ,Depression binary,daic_fusion_logreg,0.7429,0.6182,LogReg meta
-DAIC-WOZ,Depression binary,daic_fusion_mlp,0.7143,0.6261,MLP meta
-DAIC-WOZ,Depression binary,daic_fusion_thresh_opt,0.6857,0.6438,Wavg thresh=0.45 optimised
-DAIC-WOZ,Depression binary,daic_fusion_wavg,0.7429,0.6182,weighted avg
-DAIC-WOZ,Depression binary,daic_fusion_xgb_direct,0.7143,0.6261,XGB direct on 2231 enriched features
-DAIC-WOZ,Depression binary,daic_linguistic_tuned,0.6,0.536,XGB linguistic tuned
-DAIC-WOZ,Depression binary,daic_test_acoustic,0.6383,0.5583,TEST acoustic train+val+SMOTE=True
-DAIC-WOZ,Depression binary,daic_test_fusion,0.5319,0.5317,TEST fusion wavg thresh=0.2 SMOTE=True
-DAIC-WOZ,Depression binary,daic_test_linguistic,-,0.5583,TEST linguistic train+val+SMOTE=True
-DAIC-WOZ,Depression binary,daic_test_phq8,6.31,-,TEST PHQ-8 train+val XGBoost
-DAIC-WOZ,Depression binary,daic_test_visual,-,0.5064,TEST visual train+val+SMOTE=True
-DAIC-WOZ,Depression binary,daic_visual_tuned,0.6857,0.5727,XGB visual tuned
-DAIC-WOZ,PHQ-8 regression,daic_phq8_gbr_huber,7.2218,-,GBR Huber
-DAIC-WOZ,PHQ-8 regression,daic_phq8_xgb_enriched,6.3504,-,XGB enriched 2231 features
-DAIC-WOZ,PHQ-8 regression,daic_phq8_xgb_mse,6.5025,-,XGB MSE
+DAIC-WOZ,Depression binary,daic_acoustic_combined_test,-,0.4683,Acoustic XGB train+val+SMOTE test
+DAIC-WOZ,Depression binary,daic_acoustic_tuned,0.6,0.5717,XGB acoustic depth=2 lr=0.05
+DAIC-WOZ,Depression binary,daic_fusion_combined_smote,0.5957,0.4175,"Train+Val combined + SMOTE, evaluated on test set"
+DAIC-WOZ,Depression binary,daic_fusion_logreg,0.6286,0.4485,LogReg meta
+DAIC-WOZ,Depression binary,daic_fusion_mlp,0.6286,0.4485,MLP meta
+DAIC-WOZ,Depression binary,daic_fusion_thresh_opt,0.6286,0.6237,Wavg thresh=0.45 optimised
+DAIC-WOZ,Depression binary,daic_fusion_wavg,0.5714,0.4173,weighted avg
+DAIC-WOZ,Depression binary,daic_fusion_xgb_direct,0.6857,0.6027,XGB direct on 2231 enriched features
+DAIC-WOZ,Depression binary,daic_linguistic_tuned,0.4571,0.4272,XGB linguistic tuned
+DAIC-WOZ,Depression binary,daic_test_acoustic,0.5957,0.5064,TEST acoustic train+val+SMOTE=True
+DAIC-WOZ,Depression binary,daic_test_fusion,0.5106,0.5098,TEST fusion wavg thresh=0.2 SMOTE=True
+DAIC-WOZ,Depression binary,daic_test_linguistic,-,0.5747,TEST linguistic train+val+SMOTE=True
+DAIC-WOZ,Depression binary,daic_test_phq8,6.0737,-,TEST PHQ-8 train+val XGBoost
+DAIC-WOZ,Depression binary,daic_test_visual,-,0.5422,TEST visual train+val+SMOTE=True
+DAIC-WOZ,Depression binary,daic_visual_tuned,0.5429,0.4017,XGB visual tuned
+DAIC-WOZ,Depression binary,daic_whisper_hc_fusion_mlp,-,-,
+DAIC-WOZ,Depression binary,daic_whisper_hc_fusion_xgb,-,-,
+DAIC-WOZ,Depression binary,daic_whisper_phq8_reg,-,-,
+DAIC-WOZ,Depression binary,daic_whisper_svm,-,-,
+DAIC-WOZ,Depression binary,daic_whisper_xgb,-,-,
+DAIC-WOZ,PHQ-8 regression,daic_phq8_gbr_huber,6.8425,-,GBR Huber
+DAIC-WOZ,PHQ-8 regression,daic_phq8_xgb_enriched,6.515,-,XGB enriched 2231 features
+DAIC-WOZ,PHQ-8 regression,daic_phq8_xgb_mse,6.6072,-,XGB MSE
 MODMA,MDD vs HC,modma_svm_test,0.875,0.873,SVM C=100.0 kernel=rbf
+MODMA,MDD vs HC,modma_whisper_svm,-,-,
+MODMA,MDD vs HC,modma_whisper_xgb,-,-,
 MODMA,MDD vs HC,modma_xgb_test,0.875,0.873,XGB heavy reg
 RAVDESS,8-class emotion,rav_gbm_baseline,0.4267,0.4233,GBM n=200 depth=3
 RAVDESS,8-class emotion,rav_mlp_adam,0.3267,0.3242,EmotionMLP optimiser=Adam
@@ -31,6 +38,8 @@ RAVDESS,8-class emotion,rav_mlp_sgd,0.2467,0.2444,EmotionMLP optimiser=SGD
 RAVDESS,8-class emotion,rav_mlp_trainval_test,0.3567,0.3299,"EmotionMLP trained on 1140 train+val samples, eval on test, opt=AdamW"
 RAVDESS,8-class emotion,rav_rf_baseline,0.41,0.3712,RF n=200
 RAVDESS,8-class emotion,rav_svm_scaled,0.2867,0.2803,SVM RBF C=100.0 scaled (tuned)
+RAVDESS,8-class emotion,rav_whisper_mlp,-,-,
+RAVDESS,8-class emotion,rav_whisper_xgb,-,-,
 RAVDESS,8-class emotion,rav_xgb_baseline,0.4,0.3816,XGB depth=4 lr=0.05
 RAVDESS,8-class emotion,rav_xgb_grid_best,0.47,0.454,XGB grid best
 RAVDESS,8-class emotion,rav_xgb_reg_best,0.4867,0.4724,XGB best regularisation config
@@ -72,3 +81,5 @@ Stress (SWELL/WESAD),Stress classification,stress_xgb_swell-hrv_3-class,0.5083,0
 Stress (SWELL/WESAD),Stress classification,stress_xgb_swell-hrv_binary,0.6786,0.4043,XGB baseline SWELL-HRV binary
 Stress (SWELL/WESAD),Stress classification,stress_xgb_wesad-eda_binary,0.6556,0.6554,XGB baseline WESAD-EDA binary
 Stress (SWELL/WESAD),Stress classification,stress_xgb_wesad-hrv_binary,0.9171,0.917,XGB baseline WESAD-HRV binary
+Unknown,Unknown,swell_hrv_xgb_smote,-,-,
+Unknown,Unknown,swell_hrv_xgb_smote_binary,-,-,
