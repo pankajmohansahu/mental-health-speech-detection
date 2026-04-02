@@ -100,4 +100,15 @@
 | Pankaj Mohan Sahu | 21f2001203 | Training Pipeline & Experimentation |
 | Mahi Mudgal | 21f3002602 | Evaluation, Analysis & Reporting |
 
+---
+## Milestone 5 — Team Contributions
+
+| Name | Roll Number | Contribution |
+|---|---|---|
+| Drashti Shah | 22f2001483 | Evaluation Pipeline & Metrics — Designed and implemented the evaluation pipeline, including computation of performance metrics (accuracy, macro F1, RMSE, MAE) and structured comparison of results across multiple models and configurations. |
+| G Hamsini | 22f3000767 | Data Analysis & Visualization — Prepared evaluation datasets, ensured consistency in preprocessing during testing, and generated visualizations such as confusion matrices and performance plots to support model analysis. |
+| Om Aryan | 21f3002286 | Model Evaluation & Error Analysis — Conducted detailed evaluation of trained models, analyzed prediction outputs, identified error patterns, and investigated causes of misclassification and performance limitations. |
+| Pankaj Mohan Sahu | 21f2001203 | Validation Strategy & Comparative Study — Implemented validation strategies including LOSO evaluation, compared model performances across different setups, and contributed to interpreting trends and stability of results. |
+| Mahi Mudgal | 21f3002602 | Reporting & Insights — Compiled evaluation findings into a structured report, documented quantitative and qualitative results, highlighted key observations, limitations, and proposed future improvements aligned with project goals. |
+
 *Submitted to: IIT Madras — BSDA4001 Data Science and AI Lab*
