@@ -9,3 +9,6 @@ librosa>=0.10.0
 matplotlib>=3.7.0
 ffmpeg-python>=0.2.0
 imageio-ffmpeg>=0.4.9
+faiss-cpu>=1.7.4
+sentence-transformers==2.7.0
+groq>=0.9.0

@@ -208,3 +208,68 @@ def warmup():
     load_rav_xgb()
     load_modma_svm()
     print("[WARMUP] All models ready.")
+
+
+# ── PHQ-8 Questionnaire ────────────────────────────────────────────────────────
+PHQ8_QUESTIONS = [
+    "Little interest or pleasure in doing things",
+    "Feeling down, depressed, or hopeless",
+    "Trouble falling or staying asleep, or sleeping too much",
+    "Feeling tired or having little energy",
+    "Poor appetite or overeating",
+    "Feeling bad about yourself — or that you are a failure or have let "
+    "yourself or your family down",
+    "Trouble concentrating on things, such as reading or watching television",
+    "Moving or speaking so slowly that other people could have noticed? "
+    "Or being so fidgety or restless that you moved around a lot more than usual",
+]
+
+PHQ8_OPTIONS = [
+    "Not at all (0)",
+    "Several days (1)",
+    "More than half the days (2)",
+    "Nearly every day (3)",
+]
+
+
+def score_phq8(responses: list) -> dict:
+    """
+    Calculate PHQ-8 score and severity from a list of 8 integer responses (0-3).
+
+    Args:
+        responses: list of 8 integers, each 0–3
+
+    Returns:
+        dict with keys: score, severity, color, recommendation, above_threshold
+    """
+    score = int(sum(responses))
+
+    if score <= 4:
+        severity    = "No significant depression"
+        color       = "#2ecc71"   # green
+        rec         = "Your responses suggest no significant depression symptoms at this time."
+    elif score <= 9:
+        severity    = "Mild depression"
+        color       = "#f1c40f"   # yellow
+        rec         = "Mild symptoms detected. Monitor how you feel over the coming weeks."
+    elif score <= 14:
+        severity    = "Moderate depression"
+        color       = "#e67e22"   # orange
+        rec         = "Moderate symptoms. Consider speaking with a counsellor or GP."
+    elif score <= 19:
+        severity    = "Moderately severe depression"
+        color       = "#e74c3c"   # red
+        rec         = "Moderately severe symptoms. Please consult a mental health professional."
+    else:
+        severity    = "Severe depression"
+        color       = "#8e44ad"   # purple
+        rec         = "Severe symptoms. Please seek professional help as soon as possible."
+
+    return {
+        "score":            score,
+        "max_score":        24,
+        "severity":         severity,
+        "color":            color,
+        "recommendation":   rec,
+        "above_threshold":  score >= 10,
+    }
