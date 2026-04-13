@@ -60,24 +60,55 @@
 | Pankaj Mohan Sahu | 21f2001203 | Feasibility & Compute, Evaluation Metrics |
 | Mahi Mudgal | 21f3002602 | Project Timeline |
 
----
 
-##  Report Structure
-
-```
-Milestone 1 Report
-├── Abstract
-├── Objectives
-├── Literature Review
-├── Model Architecture
-├── Dataset & Resources
-├── Feasibility and Compute
-├── Evaluation Metrics
-├── Project Roles
-├── Project Timeline
-└── Conclusion
-```
 
 ---
+
+## Milestone 2 — Team Contributions
+
+| Name | Roll Number | Contribution |
+|---|---|---|
+| Drashti Shah | 22f2001483 | Dataset Preparation — Organized and preprocessed datasets, including structuring audio–transcript pairs and preparing train/test splits for model training and evaluation. |
+| G Hamsini | 22f3000767| Dataset Preparation — Assisted in cleaning and structuring the DAIC-WOZ dataset and ensuring compatibility with the multimodal pipeline. |
+| Pankaj Mohan Sahu | 21f2001203 | Exploratory Data Analysis (EDA) — Conducted statistical analysis of the datasets, examining audio duration, transcript characteristics, and PHQ-9 label distributions. |
+| Om Aryan | 21f3002286 | Exploratory Data Analysis (EDA) — Performed visualizations and feature-level exploration to understand acoustic and linguistic patterns relevant to mental health detection. |
+| Mahi Mudgal | 21f3002602 | Documentation — Compiled and organized Milestone 2 documentation, detailing dataset preparation procedures and EDA findings. |
+
+
+
+---
+
+## Milestone 3 — Team Contributions
+
+| Name | Roll Number | Contribution |
+|---|---|---|
+| Drashti Shah | 22f2001483 | Dataset Structuring & Preprocessing — Designed and implemented structured data pipelines, including organization of raw and processed datasets, creation of train/validation/test splits, and preprocessing of audio and transcript data for model ingestion. |
+| G Hamsini | 22f3000767 | Dataset Structuring & Preprocessing — Assisted in refining dataset organization, ensuring consistency across multimodal inputs, and implementing preprocessing steps for both speech and textual data. |
+| Om Aryan | 21f3002286 | Model Architecture & Pipeline — Developed the end-to-end model pipeline, integrating speech processing, transcript-based analysis, and system flow from input to prediction. |
+| Pankaj Mohan Sahu | 21f2001203 | Model Architecture & Pipeline — Contributed to architecture design decisions, pipeline integration, and implementation of data flow across different components of the system. |
+| Mahi Mudgal | 21f3002602 | Evaluation & Justification — Defined evaluation metrics, validated the end-to-end pipeline on sample data, and provided justification for model architecture including strengths, limitations, and performance considerations. |
+
+
+---
+## Milestone 4 — Team Contributions
+
+| Name | Roll Number | Contribution |
+|---|---|---|
+| Drashti Shah | 22f2001483 | Data Processing & Feature Engineering |
+| G Hamsini | 22f3000767 | Hyperparameter Tuning & Validation Strategy |
+| Om Aryan | 21f3002286 | Model Optimization & Integration |
+| Pankaj Mohan Sahu | 21f2001203 | Training Pipeline & Experimentation |
+| Mahi Mudgal | 21f3002602 | Evaluation, Analysis & Reporting |
+
+---
+## Milestone 5 — Team Contributions
+
+| Name | Roll Number | Contribution |
+|---|---|---|
+| Drashti Shah | 22f2001483 | Evaluation Pipeline & Metrics — Designed and implemented the evaluation pipeline, including computation of performance metrics (accuracy, macro F1, RMSE, MAE) and structured comparison of results across multiple models and configurations. |
+| G Hamsini | 22f3000767 | Data Analysis & Visualization — Prepared evaluation datasets, ensured consistency in preprocessing during testing, and generated visualizations such as confusion matrices and performance plots to support model analysis. |
+| Om Aryan | 21f3002286 | Model Evaluation & Error Analysis — Conducted detailed evaluation of trained models, analyzed prediction outputs, identified error patterns, and investigated causes of misclassification and performance limitations. |
+| Pankaj Mohan Sahu | 21f2001203 | Validation Strategy & Comparative Study — Implemented validation strategies including LOSO evaluation, compared model performances across different setups, and contributed to interpreting trends and stability of results. |
+| Mahi Mudgal | 21f3002602 | Reporting & Insights — Compiled evaluation findings into a structured report, documented quantitative and qualitative results, highlighted key observations, limitations, and proposed future improvements aligned with project goals. |
 
 *Submitted to: IIT Madras — BSDA4001 Data Science and AI Lab*

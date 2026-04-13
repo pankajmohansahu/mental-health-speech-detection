@@ -1,7 +1,22 @@
-# Raw datasets (too large for git)
-MODMA-Dataset/
-RAVDESS Emotional speech audio/
-Daicwoz/
+# Raw datasets (too large for git) — anchored to repo root
+/MODMA-Dataset/
+/MODMA_AUDIO Datatset/
+/RAVDESS Emotional speech audio/
+/Daicwoz/
+/Stress datasets/
+/DAIC-WOZ Dataset/
+
+# Large ZIP archives
+processed_data.zip
+
+# Processed data — large binary / generated artefacts (regenerate from notebooks)
+processed_data/**/*.npy
+processed_data/**/*.pkl
+processed_data/**/*_full.csv
+processed_data/daicwoz/extracted_sessions/
+
+# Claude Code internal config
+.claude/
 
 # Python virtual environment
 .venv/
