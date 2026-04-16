@@ -10,23 +10,30 @@
 
 ## Authentication
 
-No API key or authentication is required for the public endpoint. All requests are anonymous and unauthenticated.
+No API key or authentication is required for the public endpoints. All requests are anonymous and unauthenticated.
 
 ---
 
-## Endpoint Reference
+## Available Endpoints
+
+The application exposes three audio-based prediction endpoints and one PHQ-8 scoring endpoint, corresponding to the four interactive tabs.
+
+| Endpoint | Tab | Description |
+|---|---|---|
+| `POST /run/predict` | Emotion Recognition | 8-class emotion detection from audio |
+| `POST /run/predict_1` | Depression Screening | Binary MDD vs. HC from audio |
+| `POST /run/predict_2` | PHQ-8 Self-Screener | Score 8 PHQ-8 responses |
+| `POST /run/predict_3` | AI Clinical Explanation | RAG + LLM explanation from audio |
+
+---
+
+## Endpoint 1 — Emotion Recognition
 
 ### POST `/run/predict`
 
-Runs the inference pipeline on a submitted audio input and returns the predicted mental health or emotion label with a confidence score.
+Classifies speech into one of 8 emotional states using Whisper-small + XGBoost (F1 = 0.974).
 
 #### Request
-
-**Method:** `POST`
-**Content-Type:** `multipart/form-data` or `application/json`
-**URL:** `https://pankaj-mohan-mental-health-speech-analysis.hf.space/run/predict`
-
-#### Request Body (JSON format)
 
 ```json
 {
@@ -40,149 +47,287 @@ Runs the inference pipeline on a submitted audio input and returns the predicted
 }
 ```
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `data` | array | Yes | Array with one element: the audio input object |
-| `data[0].name` | string | Yes | Filename with extension (e.g., `"sample.wav"`) |
-| `data[0].data` | string | Yes | Base64-encoded audio file contents |
-| `data[0].is_file` | boolean | Yes | Set to `false` for inline base64 data |
-
-**Accepted audio formats:** WAV, MP3, FLAC, OGG
-**Recommended sample rate:** 16,000 Hz or 22,050 Hz, mono
-**Minimum duration:** 0.5 seconds
-**Recommended duration:** 5–30 seconds
-
 #### Response
 
-**Content-Type:** `application/json`
+```json
+{
+  "data": [
+    "### 😢 Predicted Emotion: **Sad**\n\n**Confidence:** 68.1%\n\n_Whisper-small encoder (1536-D) + XGBoost | RAVDESS Test F1 = 0.974_",
+    "<matplotlib Figure object>",
+    ""
+  ],
+  "duration": 1.42
+}
+```
+
+| Field | Description |
+|---|---|
+| `data[0]` | Markdown summary string with predicted emotion, confidence, and model info |
+| `data[1]` | Matplotlib figure object (confidence bar chart for all 8 emotions) |
+| `data[2]` | Error string (empty string if no error) |
+
+**Emotion labels:** `Neutral`, `Calm`, `Happy`, `Sad`, `Angry`, `Fearful`, `Disgust`, `Surprised`
+
+---
+
+## Endpoint 2 — Depression Screening
+
+### POST `/run/predict_1`
+
+Binary depression screening from speech using Whisper-small + SVM RBF (F1 = 0.750).
+
+#### Request
 
 ```json
 {
   "data": [
     {
-      "label": "Sad",
-      "confidences": [
-        { "label": "Sad",       "confidence": 0.6812 },
-        { "label": "Neutral",   "confidence": 0.1543 },
-        { "label": "Fearful",   "confidence": 0.0891 },
-        { "label": "Calm",      "confidence": 0.0421 },
-        { "label": "Happy",     "confidence": 0.0183 },
-        { "label": "Angry",     "confidence": 0.0092 },
-        { "label": "Disgust",   "confidence": 0.0038 },
-        { "label": "Surprised", "confidence": 0.0020 }
-      ]
+      "name": "audio.wav",
+      "data": "<base64-encoded audio bytes>",
+      "is_file": false
     }
-  ],
-  "duration": 1.423
+  ]
 }
 ```
 
-| Field | Type | Description |
-|---|---|---|
-| `data[0].label` | string | The top predicted class label |
-| `data[0].confidences` | array | All class labels sorted by descending confidence |
-| `data[0].confidences[i].label` | string | Class label name |
-| `data[0].confidences[i].confidence` | float | Probability score [0.0, 1.0] |
-| `duration` | float | Server-side processing time in seconds |
+#### Response
 
-#### Error Responses
+```json
+{
+  "data": [
+    "### Screening Result: **HC — No Depression Indicators**\n\n**Confidence:** 72.3%\n\n- P(Healthy): 72.3%\n- P(Depressed): 27.7%\n\n_Whisper-small encoder (1536-D) + SVM (RBF, C=10) | MODMA Test F1 = 0.750_",
+    "<matplotlib Figure object>",
+    ""
+  ],
+  "duration": 1.38
+}
+```
 
-| HTTP Status | Error | Description |
-|---|---|---|
-| 200 | `"Error: Audio too short"` | Audio is less than 0.5 seconds |
-| 200 | `"Error: Audio appears silent"` | No detectable speech signal |
-| 422 | Unprocessable Entity | Malformed request body or unsupported audio format |
-| 503 | Service Unavailable | Space is sleeping — retry after 30–60 seconds |
+| Field | Description |
+|---|---|
+| `data[0]` | Markdown summary with label, confidence, and class probabilities |
+| `data[1]` | Bar chart of P(Healthy) vs P(Depressed) |
+| `data[2]` | Error string (empty if no error) |
 
-> Note: Gradio wraps application-level errors as successful HTTP 200 responses with the error message as the `label` field. Check the `label` value for error strings.
+**Labels:** `HC — No Depression Indicators`, `MDD — Possible Depression Indicators`
 
 ---
 
-## Example: curl Request
+## Endpoint 3 — PHQ-8 Self-Screener
 
-### Step 1 — Encode audio as base64
+### POST `/run/predict_2`
 
-```bash
-# Encode a WAV file to base64
-AUDIO_B64=$(base64 -w 0 sample_speech.wav)
+Scores 8 PHQ-8 questionnaire responses and returns severity band.
+
+#### Request
+
+```json
+{
+  "data": [
+    "Not at all (0)",
+    "Several days (1)",
+    "Not at all (0)",
+    "Several days (1)",
+    "Not at all (0)",
+    "Not at all (0)",
+    "Several days (1)",
+    "Not at all (0)"
+  ]
+}
 ```
 
-### Step 2 — Send the prediction request
+Each element must be one of:
+- `"Not at all (0)"`
+- `"Several days (1)"`
+- `"More than half the days (2)"`
+- `"Nearly every day (3)"`
+
+#### Response
+
+```json
+{
+  "data": [
+    "## PHQ-8 Result\n\n**Total Score: 3 / 24**\n\n**Severity: No significant depression**\n\nBelow clinical threshold (<10).\n\nYour responses suggest no significant depression symptoms at this time.",
+    "<matplotlib Figure object>"
+  ],
+  "duration": 0.05
+}
+```
+
+| Field | Description |
+|---|---|
+| `data[0]` | Markdown result with total score, severity, threshold status, and recommendation |
+| `data[1]` | PHQ-8 score gauge chart |
+
+**Severity bands:** `No significant depression` (0–4), `Mild depression` (5–9), `Moderate depression` (10–14), `Moderately severe depression` (15–19), `Severe depression` (20–24)
+
+---
+
+## Endpoint 4 — AI Clinical Explanation (RAG)
+
+### POST `/run/predict_3`
+
+Generates a clinically-grounded explanation using FAISS retrieval + Groq LLaMA3-70B.
+
+#### Request
+
+```json
+{
+  "data": [
+    {
+      "name": "audio.wav",
+      "data": "<base64-encoded audio bytes>",
+      "is_file": false
+    },
+    12
+  ]
+}
+```
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `data[0]` | audio object | Yes | Speech audio (same format as other endpoints) |
+| `data[1]` | integer or null | No | PHQ-8 score (0–24) to enrich the explanation; pass `null` to omit |
+
+#### Response
+
+```json
+{
+  "data": [
+    "**Audio Analysis Summary**\n- Emotion: 😢 Sad (61.2%)\n- Depression screen: MDD — Possible Depression Indicators (P(MDD)=58.4%)\n- PHQ-8 score provided: 12/24\n\n---\n\n**Paragraph 1 — What the results show:**\n..."
+  ],
+  "duration": 3.21
+}
+```
+
+| Field | Description |
+|---|---|
+| `data[0]` | Full markdown explanation: analysis summary + 4-paragraph clinical explanation |
+
+The explanation includes:
+1. What the AI detected and its clinical meaning
+2. Speech patterns that contributed to the result
+3. Context and limitations of AI screening
+4. Next steps and India mental health helplines
+
+> Requires the Groq API key to be configured. Returns an error string if RAG is unavailable.
+
+---
+
+## Common Request Format
+
+All audio endpoints accept the same audio input format:
+
+**Accepted formats:** WAV, MP3, FLAC, OGG
+**Recommended sample rate:** 16,000 Hz mono
+**Minimum duration:** 0.5 seconds
+**Recommended duration:** 5–30 seconds
+
+---
+
+## Example: curl — Emotion Recognition
 
 ```bash
+# Step 1: Encode audio
+AUDIO_B64=$(base64 -w 0 sample_speech.wav)
+
+# Step 2: Send request
 curl -X POST \
   "https://pankaj-mohan-mental-health-speech-analysis.hf.space/run/predict" \
   -H "Content-Type: application/json" \
   -d "{
-    \"data\": [
-      {
-        \"name\": \"sample_speech.wav\",
-        \"data\": \"${AUDIO_B64}\",
-        \"is_file\": false
-      }
-    ]
+    \"data\": [{
+      \"name\": \"sample_speech.wav\",
+      \"data\": \"${AUDIO_B64}\",
+      \"is_file\": false
+    }]
   }"
-```
-
-### Expected Response
-
-```json
-{
-  "data": [
-    {
-      "label": "Neutral",
-      "confidences": [
-        { "label": "Neutral",   "confidence": 0.7234 },
-        { "label": "Calm",      "confidence": 0.1512 },
-        { "label": "Sad",       "confidence": 0.0641 },
-        { "label": "Happy",     "confidence": 0.0312 },
-        { "label": "Fearful",   "confidence": 0.0184 },
-        { "label": "Angry",     "confidence": 0.0071 },
-        { "label": "Disgust",   "confidence": 0.0029 },
-        { "label": "Surprised", "confidence": 0.0017 }
-      ]
-    }
-  ],
-  "duration": 0.917
-}
 ```
 
 ---
 
-## Example: Python Client
+## Example: Python Client — All Endpoints
 
 ```python
 import base64
 import requests
 
-def predict_emotion(audio_path: str, api_url: str) -> dict:
-    with open(audio_path, "rb") as f:
-        audio_b64 = base64.b64encode(f.read()).decode("utf-8")
+BASE_URL = "https://pankaj-mohan-mental-health-speech-analysis.hf.space"
 
-    payload = {
-        "data": [
-            {
-                "name": audio_path.split("/")[-1],
-                "data": audio_b64,
-                "is_file": False
-            }
-        ]
-    }
-    response = requests.post(
-        f"{api_url}/run/predict",
-        json=payload,
-        timeout=60
-    )
-    response.raise_for_status()
-    result = response.json()
-    return result["data"][0]
+def encode_audio(path: str) -> dict:
+    with open(path, "rb") as f:
+        b64 = base64.b64encode(f.read()).decode("utf-8")
+    return {"name": path.split("/")[-1], "data": b64, "is_file": False}
+
+def predict_emotion(audio_path: str) -> str:
+    r = requests.post(f"{BASE_URL}/run/predict",
+                      json={"data": [encode_audio(audio_path)]}, timeout=60)
+    r.raise_for_status()
+    return r.json()["data"][0]   # markdown summary string
+
+def predict_depression(audio_path: str) -> str:
+    r = requests.post(f"{BASE_URL}/run/predict_1",
+                      json={"data": [encode_audio(audio_path)]}, timeout=60)
+    r.raise_for_status()
+    return r.json()["data"][0]
+
+def score_phq8(responses: list) -> str:
+    """responses: list of 8 strings like 'Not at all (0)'"""
+    r = requests.post(f"{BASE_URL}/run/predict_2",
+                      json={"data": responses}, timeout=30)
+    r.raise_for_status()
+    return r.json()["data"][0]
+
+def get_rag_explanation(audio_path: str, phq8_score: int = None) -> str:
+    r = requests.post(f"{BASE_URL}/run/predict_3",
+                      json={"data": [encode_audio(audio_path), phq8_score]},
+                      timeout=120)
+    r.raise_for_status()
+    return r.json()["data"][0]
 
 # Usage
-API_URL = "https://pankaj-mohan-mental-health-speech-analysis.hf.space"
-result = predict_emotion("my_audio.wav", API_URL)
-print(f"Prediction: {result['label']}")
-print(f"Confidence: {result['confidences'][0]['confidence']:.3f}")
+print(predict_emotion("my_audio.wav"))
+print(predict_depression("my_audio.wav"))
+print(score_phq8(["Not at all (0)"] * 8))
+print(get_rag_explanation("my_audio.wav", phq8_score=12))
 ```
+
+---
+
+## Gradio Client SDK
+
+```python
+from gradio_client import Client
+
+client = Client("https://pankaj-mohan-mental-health-speech-analysis.hf.space")
+
+# Emotion recognition
+result = client.predict("my_audio.wav", api_name="/predict")
+
+# Depression screening
+result = client.predict("my_audio.wav", api_name="/predict_1")
+
+# PHQ-8 scoring
+result = client.predict(*["Not at all (0)"]*8, api_name="/predict_2")
+
+# RAG explanation
+result = client.predict("my_audio.wav", 12, api_name="/predict_3")
+```
+
+Install with: `pip install gradio_client`
+
+---
+
+## Error Responses
+
+| HTTP Status | Cause | Resolution |
+|---|---|---|
+| 200 with error string | Audio too short, silent, or processing failure | Check audio duration and quality |
+| 200 "RAG module not available" | Groq API key missing or RAG deps not installed | Configure `GROQ_API_KEY` environment variable |
+| 422 | Malformed request body | Verify JSON structure and base64 encoding |
+| 503 | Space is sleeping | Wait 30–60s and retry |
+
+> Gradio wraps application-level errors as HTTP 200 responses with the error message as the first data field. Always check `data[0]` for error strings.
 
 ---
 
@@ -190,40 +335,19 @@ print(f"Confidence: {result['confidences'][0]['confidence']:.3f}")
 
 | Constraint | Value |
 |---|---|
-| Concurrent requests | Limited by Gradio's built-in queue (default: 1 concurrent, queue depth 10) |
-| Maximum audio file size | ~50 MB (Hugging Face Spaces ingress limit) |
-| Timeout | Requests time out after 60 seconds on the client side |
-| Cold start | First request after inactivity takes 30–60 seconds |
-| Rate limiting | No explicit rate limiting on the free tier; courteous usage expected |
+| Concurrent requests | Gradio queue: 1 concurrent, depth 10 |
+| Max audio file size | ~50 MB |
+| Request timeout | 60s (audio tabs), 120s (RAG tab) |
+| Cold start latency | 30–60s after sleep |
+| Rate limiting | None explicit on free tier |
 
 ---
 
-## Gradio Client SDK (Alternative)
+## API Availability States
 
-Gradio also provides a Python client library for programmatic access:
-
-```python
-from gradio_client import Client
-
-client = Client(
-    "https://pankaj-mohan-mental-health-speech-analysis.hf.space"
-)
-result = client.predict(
-    "my_audio.wav",   # path to local audio file
-    api_name="/predict"
-)
-print(result)
-```
-
-Install with: `pip install gradio_client`
-
----
-
-## API Availability
-
-The API mirrors the Space's availability:
-
-- **Running**: The Space is active and accepting requests.
-- **Building**: The Space is starting up (typically after a code push). Requests return 503.
-- **Sleeping**: The Space has gone idle. The first request wakes it automatically — expect 30–60 seconds latency.
-- **Error**: The Space has crashed. Check the Logs tab on the HF Space page.
+| State | Description |
+|---|---|
+| **Running** | Space active, all endpoints available |
+| **Building** | Starting after code push — returns 503 |
+| **Sleeping** | Idle; first request wakes it (30–60s latency) |
+| **Error** | Crashed — check Logs tab on HF Space page |

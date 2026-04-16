@@ -12,37 +12,30 @@
 
 Python **3.10** is required. The codebase uses match-case syntax and type hints compatible with Python 3.10+.
 
-### 1.2 Dependencies (requirements.txt)
+### 1.2 Dependencies (app/requirements.txt)
 
 ```text
-# Core ML
-numpy>=1.24.0
-pandas>=2.0.0
-scikit-learn>=1.3.0
-xgboost>=1.7.0
-imbalanced-learn>=0.11.0
-
-# Deep Learning
-torch>=2.0.0
-torchaudio>=2.0.0
-
-# Audio Processing
-librosa>=0.10.0
-soundfile>=0.12.0
-openai-whisper>=20230314
-
-# Deployment UI
-gradio>=4.0.0
-
-# Visualization
-matplotlib>=3.7.0
-seaborn>=0.12.0
-
-# Utilities
-tqdm>=4.65.0
+gradio==4.44.0
+openai-whisper==20240930
+xgboost==2.1.3
+scikit-learn==1.5.2
 joblib>=1.3.0
-scipy>=1.11.0
+torch>=2.0.0
+numpy>=1.24.0,<2.0
+librosa>=0.10.0
+matplotlib>=3.7.0
+ffmpeg-python>=0.2.0
+imageio-ffmpeg>=0.4.9
+faiss-cpu>=1.7.4
+sentence-transformers==2.7.0
+groq>=0.9.0
 ```
+
+Key additions over a minimal ML stack:
+- `faiss-cpu` — vector similarity search for RAG retrieval
+- `sentence-transformers` — encodes queries and knowledge chunks for FAISS
+- `groq` — Groq API client for LLaMA3-70B generation
+- `imageio-ffmpeg` — bundled ffmpeg binary (avoids system PATH dependency on Windows/HF Spaces)
 
 ### 1.3 Installation Steps
 
@@ -56,15 +49,19 @@ python -m venv venv
 source venv/bin/activate        # Linux/macOS
 venv\Scripts\activate.bat       # Windows
 
-# Step 3: Install dependencies
+# Step 3: Install app dependencies
 pip install --upgrade pip
-pip install -r requirements.txt
+pip install -r app/requirements.txt
 
-# Step 4: Verify GPU availability (optional but recommended)
+# Step 4: Set Groq API key (required for Tab 4 RAG explanation)
+export GROQ_API_KEY=gsk_...      # Linux/macOS
+set GROQ_API_KEY=gsk_...         # Windows
+
+# Step 5: Verify GPU availability (optional but recommended)
 python -c "import torch; print('CUDA:', torch.cuda.is_available())"
 
-# Step 5: Launch app
-python app.py
+# Step 6: Launch app
+python app/app.py
 ```
 
 The application will be available at `http://localhost:7860`.
@@ -379,31 +376,55 @@ AUPRC (Area Under Precision-Recall Curve) is used for DAIC-WOZ branch tuning (`e
 9. Return: (predicted_label, confidence_score) to Gradio UI
 ```
 
-### 6.2 Key Inference Function (Pseudocode)
+### 6.2 Actual Inference Functions (inference.py)
 
 ```python
-def predict(audio_path):
-    # Step 1: Load audio
-    y, sr = librosa.load(audio_path, sr=22050)
-    if len(y) < sr * 0.5:
-        return "Audio too short. Please provide at least 0.5 seconds.", 0.0
+# --- Whisper embedding extraction ---
+def extract_whisper_embedding(audio_path: str) -> np.ndarray:
+    """
+    Extract 1536-D Whisper embedding from an audio file.
+    audio → 16kHz mono → pad/trim to 30s → 80-bin mel
+    → Whisper encoder → mean+std pool over time → 1536-D
+    """
+    import librosa
+    wmodel, wh = load_whisper()
+    audio, _ = librosa.load(str(audio_path), sr=16000, mono=True)
+    audio = wh.pad_or_trim(audio.astype(np.float32))
+    mel = wh.log_mel_spectrogram(audio, n_mels=80).to(get_device())
+    with torch.no_grad():
+        enc = wmodel.encoder(mel.unsqueeze(0)).squeeze(0)   # (T, 768)
+        emb = torch.cat([enc.mean(0), enc.std(0)])          # (1536,)
+    return emb.float().cpu().numpy()
 
-    # Step 2: Feature extraction
-    features = extract_features(y, sr)          # → ndarray [338]
-
-    # Step 3: Normalize
-    features_scaled = scaler.transform(
-        features.reshape(1, -1))                # → ndarray [1, 338]
-
-    # Step 4: Inference
-    probs = model.predict_proba(features_scaled)[0]   # → [n_classes]
-
-    # Step 5: Decision
+# --- Emotion prediction (Tab 1) ---
+def predict_emotion(audio_path: str) -> dict:
+    emb = extract_whisper_embedding(audio_path)
+    xgb = load_rav_xgb()
+    probs = xgb.predict_proba(emb.reshape(1, -1))[0]
     pred_idx = int(np.argmax(probs))
-    label = LABEL_MAP[pred_idx]
-    confidence = float(probs[pred_idx])
+    return {
+        "label":         EMOTION_LABELS[pred_idx],
+        "emoji":         EMOTION_EMOJI[EMOTION_LABELS[pred_idx]],
+        "confidence":    float(probs[pred_idx]),
+        "probabilities": {EMOTION_LABELS[i]: float(probs[i]) for i in range(8)},
+        "model_info":    "Whisper-small (1536-D) + XGBoost | RAVDESS F1 = 0.974",
+    }
 
-    return label, round(confidence, 3)
+# --- Depression screening (Tab 2) ---
+def predict_depression(audio_path: str) -> dict:
+    emb = extract_whisper_embedding(audio_path)
+    svm = load_modma_svm()
+    probs = svm.predict_proba(emb.reshape(1, -1))[0]   # [HC, MDD]
+    pred_idx = int(np.argmax(probs))
+    label = "MDD — Possible Depression Indicators" if pred_idx == 1 \
+            else "HC — No Depression Indicators"
+    return {
+        "label":      label,
+        "prob_hc":    float(probs[0]),
+        "prob_mdd":   float(probs[1]),
+        "confidence": float(probs[pred_idx]),
+        "model_info": "Whisper-small (1536-D) + SVM (RBF, C=10) | MODMA F1 = 0.750",
+    }
 ```
 
 ---
@@ -435,46 +456,94 @@ Gradio is the UI and API framework. Key components used:
 
 Gradio automatically generates a `/run/predict` REST API endpoint. Any client that can send a multipart HTTP POST request with audio data can receive predictions without using the browser UI.
 
-### 7.3 Architecture: Monolithic
+### 7.3 Architecture: Modular 4-File Design
 
-The deployment uses a **single-file monolithic architecture**:
+The deployment uses a **modular architecture** with clear separation of concerns:
 
 ```
-app.py
-  ├── Model loading (at startup)
-  ├── Scaler loading (at startup)
-  ├── Feature extraction functions
-  ├── predict() inference function
-  └── gr.Interface definition + launch()
+app/
+├── app.py          — Gradio UI only: 5 tabs, chart helpers, event bindings
+├── inference.py    — ML logic only: model loading, Whisper embedding, predict functions
+├── config.py       — Configuration only: Groq API key, model name
+├── rag_utils.py    — RAG pipeline only: knowledge base, FAISS index, Groq LLM
+├── requirements.txt
+└── models/
+    ├── rav_whisper_xgb.json      — RAVDESS XGBoost model (Whisper features)
+    └── modma_whisper_svm.pkl     — MODMA SVM pipeline (joblib, Whisper features)
 ```
 
-There are no separate microservices, no external databases, and no message queues. All inference logic is co-located with the UI in `app.py`. This is appropriate for a research prototype but would require architectural decomposition for production deployment at scale.
+`hf_space/` contains the same four Python files prepared for Hugging Face Spaces deployment (models are loaded from HF Space persistent storage rather than a local `models/` directory).
 
 ### 7.4 Model Loading at Runtime
 
-Models are loaded once at application startup (not per-request) to avoid repeated disk I/O:
+All models are loaded once at startup via `warmup()` (called at module import in `app.py`):
 
 ```python
-# Executed once at module load time
-MODEL = joblib.load("models/ravdess_xgb.json")        # XGBoost
-SCALER = joblib.load("models/ravdess_scaler.pkl")      # RobustScaler
-WHISPER_MODEL = whisper.load_model("base")             # Frozen encoder
+# inference.py — called once at startup
+def warmup():
+    load_whisper()       # openai-whisper-small, ~461 MB, CPU or CUDA
+    load_rav_xgb()       # XGBoost from models/rav_whisper_xgb.json
+    load_modma_svm()     # SVM pipeline via joblib from models/modma_whisper_svm.pkl
+
+# app.py — invoked at import time
+from inference import warmup
+warmup()
+
+# RAG index built lazily on first Tab 4 call
+# sentence-transformers encoder + FAISS IndexFlatL2 over 15 knowledge chunks
 ```
 
-Loading is deferred if GPU is unavailable — Whisper falls back to CPU.
+Models are cached in module-level globals (`_whisper_model`, `_rav_xgb`, `_modma_svm`) so subsequent requests reuse the same in-memory objects without re-loading from disk.
+
+### 7.4b RAG Pipeline Architecture
+
+```python
+# rag_utils.py
+KNOWLEDGE_CHUNKS = [...]   # 15 curated clinical knowledge strings
+
+def _build_index():
+    encoder = SentenceTransformer("all-MiniLM-L6-v2")
+    embeddings = encoder.encode([c[1] for c in KNOWLEDGE_CHUNKS])
+    index = faiss.IndexFlatL2(embeddings.shape[1])
+    index.add(embeddings.astype("float32"))
+
+def retrieve(query: str, k=4) -> list:
+    q_emb = encoder.encode([query]).astype("float32")
+    _, indices = index.search(q_emb, k)
+    return [texts[i] for i in indices[0]]
+
+def generate_explanation(emotion_result, depression_result, phq8_score):
+    query = build_query(emotion_result, depression_result, phq8_score)
+    context = "\n---\n".join(retrieve(query, k=4))
+    prompt = build_clinical_prompt(emotion_result, depression_result,
+                                   phq8_score, context)
+    client = Groq(api_key=GROQ_API_KEY)
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=500,
+        temperature=0.3,
+    )
+    return response.choices[0].message.content
+```
 
 ### 7.5 API: Auto-Generated by Gradio
 
-Gradio automatically exposes a REST API at `/run/predict` when the Space is running. See [docs/api_doc.md](api_doc.md) for the full API reference.
+Gradio automatically exposes REST API endpoints for all interactive tabs:
+- `/run/predict` — Emotion Recognition (Tab 1)
+- `/run/predict_1` — Depression Screening (Tab 2)
+- `/run/predict_2` — PHQ-8 Scoring (Tab 3)
+- `/run/predict_3` — RAG Clinical Explanation (Tab 4)
 
-### 7.6 User Interaction Flow
+See [docs/api_doc.md](api_doc.md) for the full API reference including request/response formats and Python examples.
 
-1. User opens the Hugging Face Spaces URL in a browser.
-2. Gradio serves the HTML/JS interface.
-3. User uploads a WAV/MP3/FLAC file or records via microphone.
-4. Browser sends an HTTP POST to `/run/predict` with the audio payload.
-5. `app.py` processes the audio, runs inference, returns the prediction.
-6. Gradio renders the result (label + confidence chart) in the browser.
+### 7.6 User Interaction Flow (5-Tab Application)
+
+1. User opens the Hugging Face Spaces URL.
+2. Gradio serves the 5-tab HTML/JS interface.
+3. **Tab 1 / Tab 2:** User uploads audio or records from microphone → browser POSTs to `/run/predict` or `/run/predict_1` → `inference.py` extracts 1536-D Whisper embedding → XGBoost/SVM inference → Gradio renders markdown result + confidence bar chart.
+4. **Tab 3:** User selects PHQ-8 responses via radio buttons → browser POSTs to `/run/predict_2` → `score_phq8()` in `inference.py` computes total → Gradio renders score gauge chart.
+5. **Tab 4:** User uploads audio (optionally enters PHQ-8 score) → `run_rag_explanation()` in `app.py` calls both `predict_emotion()` and `predict_depression()` → RAG retrieves 4 knowledge chunks → Groq LLaMA3-70B generates 350-word explanation → Gradio renders markdown.
 
 ### 7.7 Deployment Limitations
 
@@ -560,12 +629,13 @@ To reproduce all experiments and the deployed application from scratch:
 
 | Step | File / Action | Notes |
 |---|---|---|
-| 1 | `requirements.txt` | Install all dependencies exactly as specified |
+| 1 | `app/requirements.txt` | Install all dependencies exactly as specified |
 | 2 | `data/dataset_links.txt` | Download RAVDESS, DAIC-WOZ, MODMA, SWELL datasets |
 | 3 | `Notebooks_EDA/*.ipynb` | Run EDA notebooks to generate `processed_data/` |
 | 4 | `Notebooks_Models/Milestone4_Experiments (15).ipynb` | Run full training and hyperparameter search |
-| 5 | Export model artifacts | Save best XGBoost as `.json`, SVM as `.pkl`, MLP as `.pth` |
-| 6 | `app.py` | Load saved artifacts, define Gradio interface |
-| 7 | `python app.py` | Launch local inference server at `http://localhost:7860` |
+| 5 | Export model artifacts | Copy `rav_whisper_xgb.json` and `modma_whisper_svm.pkl` to `app/models/` |
+| 6 | Set `GROQ_API_KEY` | Required for Tab 4 RAG explanation |
+| 7 | `python app/app.py` | Launch local inference server at `http://localhost:7860` |
+| 8 | `hf_space/` | For Hugging Face Spaces deployment: push `hf_space/` contents to the HF Space repo |
 
 All random seeds are fixed at 42 across NumPy, PyTorch (`torch.manual_seed(42)`), and scikit-learn (`random_state=42`). Results may vary by ±0.001–0.005 F1 due to floating-point non-determinism across hardware.
