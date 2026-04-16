@@ -1,7 +1,6 @@
 #  AI-Based Early Mental Health Breakdown Detection from Speech Patterns
 
 > **Course:** Data Science and AI Lab Project (BSDA4001)
-> **Milestone:** 1
 > **Group:** 6 | Indian Institute of Technology Madras
 
 ---
@@ -18,53 +17,75 @@
 
 ---
 
-##  Milestone 1 — Team Contributions
 
-### G Hamsini — `22f3000767`
-- **Abstract** — Drafted the project abstract summarizing the multimodal AI screening architecture, fusion approach, and ethical design goals.
-- **Objectives** — Defined the four primary project objectives covering early screening, severity estimation, biomarker extraction, and clinical interpretability.
-- **Model Architecture** *(co-contributed)* — Co-designed the overall architecture including the Input & Branch Processing pipeline (Whisper and BioClinical-ModernBERT branches) and the Signal Extraction & RAG-Grounded Reasoning layer.
+# Team Members and Detailed Contributions
 
----
-
-### Om Aryan — `21f3002286`
-- **Model Architecture** *(co-contributed)* — Co-designed the Gated Dual-Modal Fusion mechanism (Sigmoid-based gating, 512D shared space, Compact Classifier Head, and Weighted Cross-Entropy Loss strategy).
-- **Literature Review** — Surveyed recent SOTA work on foundation models (Whisper, BioClinicalBERT), multimodal fusion strategies, and RAG-based clinical decision support; identified key gaps and justified the proposed approach.
+## G Hamsini — `22f3000767`
+- Led the conceptual framing of the project, including drafting the abstract and defining core objectives aligned with early mental health detection.
+- Contributed to multimodal architecture design, focusing on integrating speech and textual representations into a unified pipeline.
+- Worked on dataset preprocessing and validation, ensuring compatibility across modalities and consistency in evaluation workflows.
+- Supported hyperparameter tuning and validation strategies to improve model performance.
+- Assisted in data analysis and visualization during evaluation, generating insights through performance plots.
 
 ---
 
-### Drashti Shah — `22f2001483`
-- **Dataset Research and Resources** — Identified and documented all datasets used in the pipeline: DAIC-WOZ (primary benchmark), MODMA (embedding alignment), RAVDESS (acoustic robustness), and the Contextual Stress Dataset (real-world generalization).
-- **Project Roles** — Defined the four specialized team roles: Multimodal Audio Engineer, Clinical NLP & LLM Architect, Fusion & Optimization Lead, and MLOps & Clinical Validation Lead.
+##  Om Aryan — `21f3002286`
+- Contributed to model architecture design, particularly multimodal fusion strategies and representation learning.
+- Conducted literature review of state-of-the-art speech and NLP models to justify the proposed approach.
+- Implemented end-to-end model pipelines integrating preprocessing, feature extraction, and inference.
+- Led model evaluation and error analysis, identifying performance limitations.
+- Supported exploratory data analysis and feature-level insights.
 
 ---
 
-### Pankaj Mohan Sahu — `21f2001203`
-- **Feasibility and Compute** — Assessed hardware constraints (Kaggle + Google Colab, T4 GPUs), model-level feasibility with frozen encoders, memory optimization strategies, transcript handling, and ethical safeguards.
-- **Evaluation Metrics** — Designed the full evaluation framework across four dimensions: Classification metrics (Macro-F1, Sensitivity, AUPRC), Regression metrics (RMSE, Severity Band Accuracy), RAG evaluation (RAGAS + SHAP), and Long-Context & Robustness benchmarks (LOSO, Noise Robustness).
+##  Drashti Shah — `22f2001483`
+- Led dataset research and acquisition, identifying relevant speech and multimodal datasets.
+- Designed and implemented preprocessing pipelines including audio cleaning and transcript alignment.
+- Structured datasets into train/validation/test splits ensuring reproducibility.
+- Contributed to feature engineering and evaluation pipeline development.
+- Defined project roles and workflow structure for efficient team coordination.
 
 ---
 
-### Mahi Mudgal — `21f3002602`
-- **Project Timeline** — Planned and documented the 6-phase project timeline spanning February 20 to April 16, covering Foundation & Alignment, Data Engineering, Architectural Engineering, Optimization & Training, Forensic Evaluation & RAG Integration, and Deployment & Clinical Reasoning.
+## Pankaj Mohan Sahu — `21f2001203`
+- Conducted feasibility analysis, including hardware constraints and deployment considerations.
+- Designed the evaluation framework covering classification, regression, and robustness metrics.
+- Contributed to model architecture and pipeline integration for efficient system design.
+- Led training pipeline implementation and experimentation.
+- Worked on validation strategies and comparative analysis of model performance.
 
 ---
 
-## Contribution Summary
+## Mahi Mudgal — `21f3002602`
+- Planned project timeline and milestone execution strategy.
+- Managed documentation and reporting across milestones.
+- Contributed to evaluation design and justification of model performance.
+- Led final reporting and insights generation.
+- Supported deployment documentation and user guidance.
 
-| Member | Roll Number | Sections |
-|---|---|---|
-| G Hamsini | 22f3000767 | Abstract, Objectives, Model Architecture (co) |
-| Om Aryan | 21f3002286 | Model Architecture (co), Literature Review |
-| Drashti Shah | 22f2001483 | Dataset & Resources, Project Roles |
-| Pankaj Mohan Sahu | 21f2001203 | Feasibility & Compute, Evaluation Metrics |
-| Mahi Mudgal | 21f3002602 | Project Timeline |
+---
+
+# Milestone-wise Contribution Summary
+
+---
+
+
+##  Milestone 1 — Problem Definition and Research
+
+| Member | Contribution |
+|--------|-------------|
+| G Hamsini | Defined project objectives and drafted the abstract outlining the scope, goals, and multimodal approach. |
+| Om Aryan | Conducted literature review, identifying research gaps and supporting architectural decisions. |
+| Drashti Shah | Identified datasets and defined project roles for structured execution. |
+| Pankaj Mohan Sahu | Designed evaluation metrics and assessed feasibility including compute and ethics. |
+| Mahi Mudgal | Developed timeline and milestone planning for structured progress. |
 
 
 
 ---
 
-## Milestone 2 — Team Contributions
+## Milestone 2 — Data Preparation and EDA
+
 
 | Name | Roll Number | Contribution |
 |---|---|---|
@@ -78,7 +99,7 @@
 
 ---
 
-## Milestone 3 — Team Contributions
+## Milestone 3 — Pipeline and Architecture Development
 
 | Name | Roll Number | Contribution |
 |---|---|---|
@@ -89,26 +110,40 @@
 | Mahi Mudgal | 21f3002602 | Evaluation & Justification — Defined evaluation metrics, validated the end-to-end pipeline on sample data, and provided justification for model architecture including strengths, limitations, and performance considerations. |
 
 
+##  Milestone 4 — Training and Optimization
+
+| Member | Contribution |
+|--------|-------------|
+| G Hamsini | Worked on hyperparameter tuning and validation strategies. |
+| Om Aryan | Led model optimization and integration improvements. |
+| Drashti Shah | Handled feature engineering and data processing for training. |
+| Pankaj Mohan Sahu | Implemented training pipelines and conducted experiments. |
+| Mahi Mudgal | Performed evaluation analysis and documented observations. |
+
 ---
-## Milestone 4 — Team Contributions
 
-| Name | Roll Number | Contribution |
-|---|---|---|
-| Drashti Shah | 22f2001483 | Data Processing & Feature Engineering |
-| G Hamsini | 22f3000767 | Hyperparameter Tuning & Validation Strategy |
-| Om Aryan | 21f3002286 | Model Optimization & Integration |
-| Pankaj Mohan Sahu | 21f2001203 | Training Pipeline & Experimentation |
-| Mahi Mudgal | 21f3002602 | Evaluation, Analysis & Reporting |
+##  Milestone 5 — Evaluation and Analysis
+
+| Member | Contribution |
+|--------|-------------|
+| G Hamsini | Generated evaluation visualizations and ensured dataset consistency. |
+| Om Aryan | Conducted error analysis and performance evaluation. |
+| Drashti Shah | Built evaluation pipelines and computed performance metrics. |
+| Pankaj Mohan Sahu | Implemented validation strategies and comparative analysis. |
+| Mahi Mudgal | Compiled evaluation reports and insights. |
 
 ---
-## Milestone 5 — Team Contributions
 
-| Name | Roll Number | Contribution |
-|---|---|---|
-| Drashti Shah | 22f2001483 | Evaluation Pipeline & Metrics — Designed and implemented the evaluation pipeline, including computation of performance metrics (accuracy, macro F1, RMSE, MAE) and structured comparison of results across multiple models and configurations. |
-| G Hamsini | 22f3000767 | Data Analysis & Visualization — Prepared evaluation datasets, ensured consistency in preprocessing during testing, and generated visualizations such as confusion matrices and performance plots to support model analysis. |
-| Om Aryan | 21f3002286 | Model Evaluation & Error Analysis — Conducted detailed evaluation of trained models, analyzed prediction outputs, identified error patterns, and investigated causes of misclassification and performance limitations. |
-| Pankaj Mohan Sahu | 21f2001203 | Validation Strategy & Comparative Study — Implemented validation strategies including LOSO evaluation, compared model performances across different setups, and contributed to interpreting trends and stability of results. |
-| Mahi Mudgal | 21f3002602 | Reporting & Insights — Compiled evaluation findings into a structured report, documented quantitative and qualitative results, highlighted key observations, limitations, and proposed future improvements aligned with project goals. |
+##  Milestone 6 — Deployment & Documentation
+
+| Member | Contribution |
+|--------|-------------|
+| G Hamsini | Assisted in integrating model with deployment interface and inference pipeline. |
+| Om Aryan | Led deployment pipeline integration using Gradio and Hugging Face Spaces. |
+| Drashti Shah | Organized documentation and ensured reproducibility of the system. |
+| Pankaj Mohan Sahu | Managed deployment setup, environment configuration, and system execution. |
+| Mahi Mudgal | Prepared user documentation and ensured presentation readiness. |
+
+---
 
 *Submitted to: IIT Madras — BSDA4001 Data Science and AI Lab*
